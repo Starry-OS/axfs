@@ -10,7 +10,7 @@ use lwext4_rust::bindings::{
 use lwext4_rust::{Ext4BlockWrapper, Ext4File, InodeTypes, KernelDevOp};
 
 use crate::dev::Disk;
-const BLOCK_SIZE: usize = 512;
+pub const BLOCK_SIZE: usize = 512;
 
 #[allow(dead_code)]
 pub struct Ext4FileSystem {
@@ -250,7 +250,7 @@ impl VfsNodeOps for FileWrapper {
     /// Lookup the node with given `path` in the directory.
     /// Return the node if found.
     fn lookup(self: Arc<Self>, path: &str) -> VfsResult<VfsNodeRef> {
-        info!("lookup ext4fs: {:?}, {}", self.0.lock().get_path(), path);
+        debug!("lookup ext4fs: {:?}, {}", self.0.lock().get_path(), path);
 
         let fpath = self.path_deal_with(path);
         let fpath = fpath.as_str();
