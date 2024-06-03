@@ -324,6 +324,10 @@ impl VfsNodeOps for FileWrapper {
             .map(|_v| ())
             .map_err(|e| e.try_into().unwrap())
     }
+
+    fn as_any(&self) -> &dyn core::any::Any {
+        self as &dyn core::any::Any
+    }
 }
 
 impl Drop for FileWrapper {

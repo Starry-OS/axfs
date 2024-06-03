@@ -3,9 +3,9 @@ cfg_if::cfg_if! {
         pub mod myfs;
         /// The block size of the file system.
         pub const BLOCK_SIZE: usize = 512;
-    } else if #[cfg(feature = "ext4fs")] {
-        pub mod ext4fs;
-        pub use ext4fs::BLOCK_SIZE;
+    } else if #[cfg(feature = "lwext4_rust")] {
+        pub mod lwext4_rust;
+        pub use lwext4_rust::BLOCK_SIZE;
     } else if #[cfg(feature = "ext4_rs")] {
         pub mod ext4_rs;
         pub use ext4_rs::BLOCK_SIZE;
