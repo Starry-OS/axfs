@@ -109,7 +109,7 @@ bitflags! {
         /// 使打开的文件不会成为该进程的控制终端。目前没有终端设置，不处理
         const NOCTTY = 1 << 8;
         /// 同上，在不同的库中可能会用到这个或者上一个
-        const EXCL = 1 << 9;
+        const TRUNC = 1 << 9;
         /// 非阻塞读写?(虽然不知道为什么但 date.lua 也要)
         /// 在 socket 中使用得较多
         const NON_BLOCK = 1 << 11;
