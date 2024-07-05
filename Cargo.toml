@@ -41,7 +41,7 @@ axfs_devfs = { git = "https://github.com/Starry-OS/axfs_devfs.git", optional = t
 axfs_ramfs = { git = "https://github.com/Starry-OS/axfs_ramfs.git", optional = true }
 ext4_rs = { git = "https://github.com/yuoo655/ext4_rs.git", rev= "6bcc7f5", optional = true }
 lwext4_rust = { git = "https://github.com/elliott10/lwext4_rust.git", optional = true }
-another_ext4 = { git = "https://github.com/LJxTHUCS/another_ext4.git", rev = "9dad923" ,features = ["block_cache"], optional = true }
+another_ext4 = { git = "https://github.com/LJxTHUCS/another_ext4.git", rev = "282418b", features = ["block_cache"], optional = true }
 axdriver = { git = "https://github.com/Starry-OS/axdriver.git", features = ["block"] }
 axsync = { git = "https://github.com/Starry-OS/axsync.git" }
 crate_interface = { git = "https://github.com/Starry-OS/crate_interface.git", optional = true }

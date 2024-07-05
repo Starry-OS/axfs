@@ -58,6 +58,10 @@ impl VfsOps for Ext4FileSystem {
     fn root_dir(&self) -> VfsNodeRef {
         Arc::new(Ext4VirtInode::new(EXT4_ROOT_INO, self.0.clone()))
     }
+    fn umount(&self) -> VfsResult {
+        self.0.flush_all();
+        Ok(())
+    }
 }
 
 pub struct Ext4VirtInode {
@@ -180,9 +184,8 @@ impl VfsNodeOps for Ext4VirtInode {
     }
 
     fn rename(&self, src_path: &str, dst_path: &str) -> VfsResult {
-        // TODO: only can move in the same directory
         self.fs
-            .rename(self.id, src_path, self.id, dst_path)
+            .generic_rename(self.id, src_path, dst_path)
             .map_err(map_error)
     }
 
