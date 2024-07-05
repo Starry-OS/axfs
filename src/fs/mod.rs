@@ -9,6 +9,9 @@ cfg_if::cfg_if! {
     } else if #[cfg(feature = "ext4_rs")] {
         pub mod ext4_rs;
         pub use ext4_rs::BLOCK_SIZE;
+    } else if #[cfg(feature = "another_ext4")] {
+        pub mod another_ext4;
+        pub use another_ext4::BLOCK_SIZE;
     } else if #[cfg(feature = "fatfs")] {
         // default to be fatfs
         pub mod fatfs;

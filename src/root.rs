@@ -169,6 +169,10 @@ pub(crate) fn init_rootfs(disk: crate::dev::Disk) {
             static EXT4_FS: LazyInit<Arc<fs::ext4_rs::Ext4FileSystem>> = LazyInit::new();
             EXT4_FS.init_by(Arc::new(fs::ext4_rs::Ext4FileSystem::new(disk)));
             let main_fs = EXT4_FS.clone();
+        } else if #[cfg(feature = "another_ext4")] {
+            static EXT4_FS: LazyInit<Arc<fs::another_ext4::Ext4FileSystem>> = LazyInit::new();
+            EXT4_FS.init_by(Arc::new(fs::another_ext4::Ext4FileSystem::new(disk)));
+            let main_fs = EXT4_FS.clone();
         } else if #[cfg(feature = "fatfs")] {
             // default to be fatfs
             static FAT_FS: LazyInit<Arc<fs::fatfs::FatFileSystem>> = LazyInit::new();
