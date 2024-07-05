@@ -1,6 +1,8 @@
 use alloc::sync::Arc;
 use axfs_vfs::{VfsNodeType, VfsOps, VfsResult};
+use axtask::current;
 
+use crate::alloc::string::ToString;
 use crate::fs;
 
 #[cfg(feature = "devfs")]
@@ -61,6 +63,21 @@ pub(crate) fn procfs() -> VfsResult<Arc<fs::ramfs::RamFileSystem>> {
     proc_root.create("self", VfsNodeType::Dir)?;
     proc_root.create("self/stat", VfsNodeType::File)?;
     proc_root.create("self/exe", VfsNodeType::File)?;
+    proc_root.create("self/status", VfsNodeType::File)?;
+    let current_task = current();
+    let name = current_task.name().as_bytes();
+    let getid = current_task.id().as_u64().to_string();
+    let id = getid.as_bytes();
+    let file_status = proc_root.clone().lookup("./self/status")?;
+    file_status.write_at(0, name)?;
+    file_status.write_at(name.len().try_into().unwrap(), b"\n")?;
+    file_status.write_at((name.len() + 1).try_into().unwrap(), id)?;
+    file_status.write_at((name.len() + id.len() +1).try_into().unwrap(), b"\n256\n")?;
+
+    // Create /proc/filesystems
+    proc_root.create("filesystems", VfsNodeType::File)?;
+    let file_fs = proc_root.clone().lookup("./filesystems")?;
+    file_fs.write_at(0, b"fat32\next4\n")?;
 
     #[cfg(feature = "monolithic")]
     {
