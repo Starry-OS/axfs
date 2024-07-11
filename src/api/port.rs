@@ -3,7 +3,7 @@ extern crate alloc;
 use alloc::string::String;
 use axerrno::{AxError, AxResult};
 use axio::{Read, Seek, SeekFrom, Write};
-use core::any::Any;
+use core::{ptr, any::Any};
 use log::debug;
 
 /// 文件系统信息
@@ -343,8 +343,37 @@ pub trait FileIO: AsAny + Send + Sync {
     }
 
     /// To control the file descriptor
-    fn ioctl(&self, _request: usize, _arg1: usize) -> AxResult<isize> {
-        Err(AxError::Unsupported)
+    fn ioctl(&self, request: usize, data: usize) -> AxResult<isize> {
+        match request {
+            TIOCGWINSZ => {
+                let winsize = data as *mut ConsoleWinSize;
+                unsafe {
+                    *winsize = ConsoleWinSize::default();
+                }
+                Ok(0)
+            }
+            TCGETS | TIOCSPGRP => {
+                // pretend to be tty
+                Ok(0)
+            }
+            TIOCGPGRP => {
+                unsafe {
+                    *(data as *mut u32) = 0;
+                }
+                Ok(0)
+            }
+            FIONBIO => {
+                let ptr_argp = data as *const u32;
+                let nonblock = unsafe { ptr::read(ptr_argp) };
+                if nonblock == 1 {
+                    let old_status = self.get_status();
+                    let _ = self.set_status(old_status | OpenFlags::NON_BLOCK);
+                }
+                return Ok(0);
+            }
+            FIOCLEX => Ok(0),
+            _ => Err(AxError::Unsupported),
+        }
     }
 }
 
