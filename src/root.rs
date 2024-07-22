@@ -187,6 +187,11 @@ pub(crate) fn init_rootfs(disk: crate::dev::Disk) {
 
     #[cfg(feature = "ramfs")]
     root_dir
+        .mount("/dev/shm", mounts::ramfs())
+        .expect("failed to mount devfs at /dev/shm");
+
+    #[cfg(feature = "ramfs")]
+    root_dir
         .mount("/tmp", mounts::ramfs())
         .expect("failed to mount ramfs at /tmp");
 

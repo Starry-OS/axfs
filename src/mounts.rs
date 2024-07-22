@@ -23,10 +23,8 @@ pub(crate) fn devfs() -> Arc<fs::devfs::DeviceFileSystem> {
         // 添加dev文件系统下的配置文件
         // busybox的时候要用到
         // devfs不支持可修改的file，因此取巧直接用了ramfs提供的file实现
-        let testshm = fs::ramfs::FileNode::new();
         let testrtc = fs::ramfs::FileNode::new();
-        let shm_dir = devfs.mkdir("shm");
-        shm_dir.add("testshm", Arc::new(testshm));
+        let _shm_dir = devfs.mkdir("shm");
         let rtc_dir = devfs.mkdir("misc");
         rtc_dir.add("rtc", Arc::new(testrtc));
     }
