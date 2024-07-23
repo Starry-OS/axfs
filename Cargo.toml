@@ -23,6 +23,8 @@ fatfs = ["dep:fatfs"]
 lwext4_rust = ["dep:lwext4_rust", "devfs", "ramfs", "procfs", "sysfs"]
 # Use ext4rs as the default filesystem
 ext4_rs = ["dep:ext4_rs", "devfs", "ramfs", "procfs", "sysfs"]
+# Use another_ext4 as the default filesystem
+another_ext4 = ["dep:another_ext4", "devfs", "ramfs", "procfs", "sysfs"]
 default = ["devfs", "ramfs", "fatfs", "procfs", "sysfs"]
 
 [dependencies]
@@ -39,6 +41,7 @@ axfs_devfs = { git = "https://github.com/Starry-OS/axfs_devfs.git", optional = t
 axfs_ramfs = { git = "https://github.com/Starry-OS/axfs_ramfs.git", optional = true }
 ext4_rs = { git = "https://github.com/yuoo655/ext4_rs.git", rev= "6bcc7f5", optional = true }
 lwext4_rust = { git = "https://github.com/elliott10/lwext4_rust.git", optional = true }
+another_ext4 = { git = "https://github.com/LJxTHUCS/another_ext4.git", branch = "main", features = ["block_cache"], optional = true }
 axdriver = { git = "https://github.com/Starry-OS/axdriver.git", features = ["block"] }
 axsync = { git = "https://github.com/Starry-OS/axsync.git" }
 crate_interface = { git = "https://github.com/Starry-OS/crate_interface.git", optional = true }
