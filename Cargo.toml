@@ -45,11 +45,11 @@ another_ext4 = { git = "https://github.com/LJxTHUCS/another_ext4.git", branch = 
 axdriver = { git = "https://github.com/Starry-OS/axdriver.git", features = ["block"] }
 axsync = { git = "https://github.com/Starry-OS/axsync.git" }
 crate_interface = { git = "https://github.com/Starry-OS/crate_interface.git", optional = true }
-bitflags = "2.0"
+bitflags = "2.6"
 
 [dependencies.fatfs]
 git = "https://github.com/rafalh/rust-fatfs"
-rev = "a3a834e"
+rev = "85f06e0"
 optional = true
 default-features = false
 features = [ # no std
